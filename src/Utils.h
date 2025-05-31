@@ -6,9 +6,24 @@
 #include <iomanip>
 #include <iostream>
 #include <limits>
-#include <numbers>
+// #include <numbers>
 
-#include "llvm/Support/raw_os_ostream.h"
+namespace constants {
+    constexpr double pi = 3.14159265358979323846;
+    constexpr double e = 2.71828182845904523536;
+    constexpr double inv_pi = 0.31830988618379067154;
+    constexpr double inv_sqrtpi = 0.56418958354775628695;
+    constexpr double ln2 = 0.69314718055994530942;
+    constexpr double ln10 = 2.30258509299404568402;
+    constexpr double sqrt2 = 1.41421356237309504880;
+    constexpr double sqrt3 = 1.73205080756887729353;
+    constexpr double inv_sqrt3 = 0.57735026918962576451;
+    constexpr double egamma = 0.57721566490153286060; // Euler-Mascheroni constant
+    constexpr double phi = 1.61803398874989484820;    // Golden ratio
+}
+
+// #include "llvm/Support/raw_os_ostream.h"
+#include "llvm/Support/raw_ostream.h"
 #include "mlir/IR/Operation.h"
 #include "mlir/IR/Value.h"
 
@@ -38,12 +53,12 @@ inline bool isBlank(const std::string& str) {
     return str.find_first_not_of(' ') == std::string::npos;
 }
 
-inline void printFileContents(const std::string& filename, llvm::raw_ostream& ros = llvm::outs()) {
+inline void printFileContents(const std::string& filename, std::ostream& os = std::cout) {
     std::ifstream file(filename);
     if (file.is_open()) {
         std::string line;
         while (std::getline(file, line)) {
-            ros << line << "\n";
+            os << line << "\n";
         }
         file.close();
     }

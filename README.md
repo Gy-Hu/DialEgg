@@ -4,6 +4,9 @@ The equality saturation engine used is [Egglog](https://github.com/egraphs-good/
 
 ## Getting Started
 
+clone this repo to your home directory `~/DialEgg`
+(CMakeLists.txt is set to use `~/DialEgg/llvm/build-release` as the LLVM build directory)
+
 ### LLVM
 Clone [LLVM](https://github.com/llvm/llvm-project) with tag `llvmorg-18.1.4` or commit `e6c3289804a67ea0bb6a86fadbe454dd93b8d855`. DialEgg has been tested with this version of LLVM only.
 
@@ -16,13 +19,10 @@ The build LLVM core and MLIR in Release mode. This may take a while.
 ```bash
 cd llvm
 mkdir build-release
+cd ..
+cmake -S llvm/llvm -B llvm/build-release -G Ninja -DLLVM_ENABLE_PROJECTS="mlir" -DCMAKE_BUILD_TYPE=Release -DLLVM_USE_LINKER=""
 
-cmake -S llvm -B build-release -G Ninja \
-    -DLLVM_ENABLE_PROJECTS="mlir" \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DLLVM_USE_LINKER=lld
-
-cmake --build build-release
+cmake --build llvm/build-release
 ```
 
 If you have issues building, follow the [build guide](https://llvm.org/docs/GettingStarted.html#getting-the-source-code-and-building-llvm).
@@ -105,6 +105,7 @@ Egglog ops and rules in [test/classic/classic.egg](test/classic/classic.egg):
 Run this and the output will be the optimized MLIR.
 
 ```bash
+export PATH=$PATH:~/DialEgg/egglog/target/release
 ./build/egg-opt --eq-sat test/classic/classic.mlir --egg test/classic/classic.egg
 ```
 Result:
