@@ -1,0 +1,80 @@
+(include "src/base.egg")
+
+;;;; HEC Datapath Verification Rules ;;;;
+;;;; Boolean Algebra and Gate-level transformations ;;;;
+
+;; Define arithmetic and affine dialect operations
+(function arith_constant (AttrPair Type) Op)
+(function arith_andi (Op Op Type) Op)
+(function arith_ori (Op Op Type) Op) 
+(function arith_xori (Op Op Type) Op)
+(function affine_load (Op Op Type) Op)
+(function affine_store (Op Op Type) Op)
+(function affine_for (Op Op Op Block) Op)
+
+;; Define block operation for loop bodies
+(function block (Op Op Op) Block)
+
+;; OPS HERE ;;
+
+;; RULES HERE ;;
+(ruleset hec_boolean_rules)
+
+;; Define common constants
+;; In MLIR, boolean true is represented as -1 (all bits set)
+;; and boolean false is represented as 0
+(let c_true (arith_constant (NamedAttr "value" (IntegerAttr -1 (I1))) (I1)))
+(let c_false (arith_constant (NamedAttr "value" (IntegerAttr 0 (I1))) (I1)))
+
+;; Basic Boolean algebra rules
+;; Identity rules
+(rewrite (arith_andi ?x c_true (I1)) ?x :ruleset hec_boolean_rules)   ; x & true = x
+(rewrite (arith_ori ?x c_false (I1)) ?x :ruleset hec_boolean_rules)   ; x | false = x
+(rewrite (arith_xori ?x c_false (I1)) ?x :ruleset hec_boolean_rules)  ; x ^ false = x
+
+;; Complement rules  
+(rewrite (arith_andi ?x c_false (I1)) c_false :ruleset hec_boolean_rules) ; x & false = false
+(rewrite (arith_ori ?x c_true (I1)) c_true :ruleset hec_boolean_rules)    ; x | true = true
+
+;; Commutative rules
+(rewrite (arith_andi ?x ?y ?t) (arith_andi ?y ?x ?t) :ruleset hec_boolean_rules)
+(rewrite (arith_ori ?x ?y ?t) (arith_ori ?y ?x ?t) :ruleset hec_boolean_rules)
+(rewrite (arith_xori ?x ?y ?t) (arith_xori ?y ?x ?t) :ruleset hec_boolean_rules)
+
+;; Associative rules
+(rewrite (arith_andi (arith_andi ?x ?y ?t1) ?z ?t2) (arith_andi ?x (arith_andi ?y ?z ?t1) ?t2) :ruleset hec_boolean_rules)
+(rewrite (arith_ori (arith_ori ?x ?y ?t1) ?z ?t2) (arith_ori ?x (arith_ori ?y ?z ?t1) ?t2) :ruleset hec_boolean_rules)
+
+;; De Morgan's laws - The key rules for HEC datapath verification
+;; ¬(a & b) = ¬a | ¬b  (NAND to NOR equivalence)
+(rewrite 
+    (arith_xori (arith_andi ?a ?b (I1)) c_true (I1))
+    (arith_ori (arith_xori ?a c_true (I1)) (arith_xori ?b c_true (I1)) (I1))
+    :ruleset hec_boolean_rules
+)
+
+;; ¬(a | b) = ¬a & ¬b  (NOR to NAND equivalence)
+(rewrite 
+    (arith_xori (arith_ori ?a ?b (I1)) c_true (I1))
+    (arith_andi (arith_xori ?a c_true (I1)) (arith_xori ?b c_true (I1)) (I1))
+    :ruleset hec_boolean_rules
+)
+
+;; Double negation elimination: ¬¬a = a
+(rewrite 
+    (arith_xori (arith_xori ?a c_true (I1)) c_true (I1))
+    ?a
+    :ruleset hec_boolean_rules
+)
+
+;; XOR with itself: a ^ a = false
+(rewrite (arith_xori ?x ?x (I1)) c_false :ruleset hec_boolean_rules)
+
+;; Idempotent rules
+(rewrite (arith_andi ?x ?x (I1)) ?x :ruleset hec_boolean_rules)  ; x & x = x
+(rewrite (arith_ori ?x ?x (I1)) ?x :ruleset hec_boolean_rules)   ; x | x = x
+
+;; Run the equality saturation
+(run-schedule (saturate hec_boolean_rules))
+
+;; EXTRACTS HERE ;; 
