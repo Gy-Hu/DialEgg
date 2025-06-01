@@ -44,4 +44,4 @@
 (extract op4)  ; NAND result
 (extract op7)  ; OR result
 ;; Check if they're in the same e-class
-(check (= op4 op7)) 
+(check (= op4 op8)) 
