@@ -28,6 +28,19 @@ Success: `[INFO] Checked fact ... (= op4 op7)`
 
 Success: `[INFO] Checked fact ... (= op6 op9)`
 
+## Example 3: XOR Expansion (xor_expansion)
+
+Verifies: `a ⊕ b ≡ (a ∧ ¬b) ∨ (¬a ∧ b)`
+
+```bash
+./build/egg-opt --eq-sat test/hec_datapath/xor_expansion/xor_simple.mlir \
+  --egg test/hec_datapath/xor_expansion/xor_working_rules.egg
+```
+
+Success: `[INFO] Checked fact ... (= op3 op8)`
+
+This example demonstrates XOR can be expanded into basic AND, OR, and NOT operations.
+
 ## Quick Tips
 
 - View operations: `grep "FROM OP:" output`
@@ -38,6 +51,7 @@ Success: `[INFO] Checked fact ... (= op6 op9)`
 
 - `fig1_listing1_2/` - Basic NAND and De Morgan's law equivalence verification
 - `loop_with_datapath/` - More complex example with memory operations
+- `xor_expansion/` - XOR operation expansion into basic logical operations
 
 ## Understanding the Output
 
