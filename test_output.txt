@@ -1,0 +1,177 @@
+[INFO ] Declared sort IntVec.
+[INFO ] Declared sort FloatVec.
+[INFO ] Declared sort Type.
+[INFO ] Declared sort TypeVec.
+[INFO ] Declared sort Attr.
+[INFO ] Declared sort AttrDict.
+[INFO ] Declared sort AttrVec.
+[INFO ] Declared sort AttrPair.
+[INFO ] Declared function NamedAttr.
+[INFO ] Declared function ValueAttr.
+[INFO ] Declared sort Op.
+[INFO ] Declared function Value.
+[INFO ] Declared function OpaqueOp.
+[INFO ] Declared function NoOp.
+[INFO ] Declared sort OpVec.
+[INFO ] Declared sort Block.
+[INFO ] Declared function Blk.
+[INFO ] Declared sort BlockVec.
+[INFO ] Declared sort Region.
+[INFO ] Declared function Reg.
+[INFO ] Declared sort RegionVec.
+[INFO ] Declared function type-of.
+[INFO ] Declared function dims.
+[INFO ] Declared function F16.
+[INFO ] Declared function F32.
+[INFO ] Declared function F64.
+[INFO ] Declared function F80.
+[INFO ] Declared function F128.
+[INFO ] Declared function I1.
+[INFO ] Declared function I4.
+[INFO ] Declared function I8.
+[INFO ] Declared function I16.
+[INFO ] Declared function I32.
+[INFO ] Declared function I64.
+[INFO ] Declared function Int.
+[INFO ] Declared function SInt.
+[INFO ] Declared function UInt.
+[INFO ] Declared function OtherInt.
+[INFO ] Declared function Index.
+[INFO ] Declared function None.
+[INFO ] Declared function Complex.
+[INFO ] Declared function Tuple.
+[INFO ] Declared function Function.
+[INFO ] Declared function Vector.
+[INFO ] Declared function RankedTensor.
+[INFO ] Declared function UnrankedTensor.
+[INFO ] Declared function OpaqueType.
+[INFO ] Declared function NoAttr.
+[INFO ] Declared function IntegerAttr.
+[INFO ] Declared function FloatAttr.
+[INFO ] Declared function StringAttr.
+[INFO ] Declared function UnitAttr.
+[INFO ] Declared function TypeAttr.
+[INFO ] Declared function ArrayAttr.
+[INFO ] Declared function DenseIntArrayAttr.
+[INFO ] Declared function DenseFloatArrayAttr.
+[INFO ] Declared function DenseIntElementsAttr.
+[INFO ] Declared function DenseFPElementsAttr.
+[INFO ] Declared function SymbolRefAttr.
+[INFO ] Declared function OpaqueAttr.
+[INFO ] Declared function arith_constant.
+[INFO ] Declared function arith_andi.
+[INFO ] Declared function arith_ori.
+[INFO ] Declared function arith_xori.
+[INFO ] Declared function affine_load.
+[INFO ] Declared function affine_store.
+[INFO ] Declared function affine_for.
+[INFO ] Declared function block.
+[INFO ] Declared function op0.
+[INFO ] Declared function op1.
+[INFO ] Declared function op2.
+[INFO ] Declared function op3.
+[INFO ] Declared function op4.
+[INFO ] Declared function op5.
+[INFO ] Declared function op6.
+[INFO ] Declared function op7.
+[INFO ] Declared function op8.
+[INFO ] Declared ruleset hec_boolean_rules.
+[INFO ] Declared function c_true.
+[INFO ] Declared function c_false.
+[INFO ] Declared rule (rewrite (arith_andi ?x c_true (I1)) ?x).
+[INFO ] Declared rule (rewrite (arith_ori ?x c_false (I1)) ?x).
+[INFO ] Declared rule (rewrite (arith_xori ?x c_false (I1)) ?x).
+[INFO ] Declared rule (rewrite (arith_andi ?x c_false (I1)) c_false).
+[INFO ] Declared rule (rewrite (arith_ori ?x c_true (I1)) c_true).
+[INFO ] Declared rule (rewrite (arith_andi ?x ?y ?t) (arith_andi ?y ?x ?t)).
+[INFO ] Declared rule (rewrite (arith_ori ?x ?y ?t) (arith_ori ?y ?x ?t)).
+[INFO ] Declared rule (rewrite (arith_xori ?x ?y ?t) (arith_xori ?y ?x ?t)).
+[INFO ] Declared rule (rewrite (arith_andi (arith_andi ?x ?y ?t1) ?z ?t2) (arith_andi ?x (arith_andi ?y ?z ?t1) ?t2)).
+[INFO ] Declared rule (rewrite (arith_ori (arith_ori ?x ?y ?t1) ?z ?t2) (arith_ori ?x (arith_ori ?y ?z ?t1) ?t2)).
+[INFO ] Declared rule (rewrite (arith_xori (arith_andi ?a ?b (I1)) c_true (I1)) (arith_ori (arith_xori ?a c_true (I1)) (arith_xori ?b c_true (I1)) (I1))).
+[INFO ] Declared rule (rewrite (arith_xori (arith_ori ?a ?b (I1)) c_true (I1)) (arith_andi (arith_xori ?a c_true (I1)) (arith_xori ?b c_true (I1)) (I1))).
+[INFO ] Declared rule (rewrite (arith_xori (arith_xori ?a c_true (I1)) c_true (I1)) ?a).
+[INFO ] Declared rule (rewrite (arith_xori ?x ?x (I1)) c_false).
+[INFO ] Declared rule (rewrite (arith_andi ?x ?x (I1)) ?x).
+[INFO ] Declared rule (rewrite (arith_omlirFile: test/hec_datapath/equivalence_test.mlir
+eggFile: test/hec_datapath/boolean_rules.egg
+Supported ops: affine.for, affine.load, affine.store, affine_for, affine_load, affine_store, arith.andi, arith.constant, arith.ori, arith.xori, arith_andi, arith_constant, arith_ori, arith_xori, 
+Supported dialects: affine, arith, 
+
+Running on function: equivalence_test
+-----------------------------------------
+DEBUG: Checking arith.ori support
+DEBUG: supportedEgglogOps contains 14 operations
+DEBUG: 'arith.ori' found: YES
+DEBUG: 'arith_ori' found: YES
+DEBUG: First 10 operations in supportedEgglogOps:
+  'affine.for'
+  'affine.load'
+  'affine.store'
+  'affine_for'
+  'affine_load'
+  'affine_store'
+  'arith.andi'
+  'arith.constant'
+  'arith.ori'
+  'arith.xori'
+Unsupported operation 'func.return' and 'func.return.2' but using the result as a variable.
+[0] (Value 0 (I1)) FROM OP: <block argument> of type 'i1' at index: 0; USERS: op2 op5 
+[1] (Value 1 (I1)) FROM OP: <block argument> of type 'i1' at index: 1; USERS: op2 op6 
+[2] (arith_andi op0 op1 (I1)) FROM OP: %0 = arith.andi %arg0, %arg1 : i1; USERS: op4 
+[3] (arith_constant (NamedAttr "value" (IntegerAttr -1 (I1))) (I1)) FROM OP: %true = arith.constant true; USERS: op4 op5 op6 
+[4] (arith_xori op2 op3 (I1)) FROM OP: %1 = arith.xori %0, %true : i1; USERS: 
+[5] (arith_xori op0 op3 (I1)) FROM OP: %2 = arith.xori %arg0, %true : i1; USERS: op7 
+[6] (arith_xori op1 op3 (I1)) FROM OP: %3 = arith.xori %arg1, %true : i1; USERS: op7 
+[7] (arith_ori op5 op6 (I1)) FROM OP: %4 = arith.ori %2, %3 : i1; USERS: 
+[8] (Value 8 (None)) FROM OP: func.return %1, %4 : i1, i1; USERS: 
+
+Running egglog: egglog test/hec_datapath/boolean_rules.ops.egg > test/hec_datapath/equivalence_test-egglog-extract.log 2> test/hec_datapath/equivalence_test-egglog.log
+
+
+
+Done running egglog
+
+(arith_andi (Value 0 (I1)) (Value 1 (I1)) (I1)) : %1 = arith.andi %arg0, %arg1 : i1
+(arith_constant (NamedAttr "value" (IntegerAttr -1 (I1))) (I1)) : %true_0 = arith.constant true
+(arith_xori (arith_andi (Value 0 (I1)) (Value 1 (I1)) (I1)) (arith_constant (NamedAttr "value" (IntegerAttr -1 (I1))) (I1)) (I1)) : %2 = arith.xori %1, %true_0 : i1
+
+-----------------------------------------
+Done running on function: equivalence_test
+mlirToEgglogTime = 8.728224e-02s
+egglogExecTime = 2.174604e-01s
+egglogToMlirTime = 7.464425e-03s
+-----------------------------------------
+module {
+  func.func @equivalence_test(%arg0: i1, %arg1: i1) -> (i1, i1) {
+    %0 = arith.andi %arg0, %arg1 : i1
+    %true = arith.constant true
+    %1 = arith.xori %0, %true : i1
+    return %1, %1 : i1, i1
+  }
+}
+
+ri ?x ?x (I1)) ?x).
+[INFO ] Ran schedule (seq (saturate (seq (run hec_boolean_rules)))).
+[INFO ] Report: Rule (rule ((= rewrite_var__ (arith_xori ?x ?x (I1)))        (= (c_false) __c_false6)...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_ori ?x (c_true) (I1)))        (= (c_true) __c_tru...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_xori (arith_xori ?a (c_true) (I1)) (c_true) (I1))...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_xori ?x (c_false) (I1))))       ((union rewrite_v...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_andi ?x ?x (I1))))       ((union rewrite_var__ ?x...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_ori (arith_ori ?x ?y ?t1) ?z ?t2)))       ((union...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_andi ?x (c_false) (I1)))        (= (c_false) __c_...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_xori (arith_andi ?a ?b (I1)) (c_true) (I1)))     ...: search 0.001s, apply 0.000s, num matches 2
+    Rule (rule ((= rewrite_var__ (arith_ori ?x ?x (I1))))       ((union rewrite_var__ ?x)...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_andi ?x (c_true) (I1))))       ((union rewrite_va...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_andi ?x ?y ?t)))       ((union rewrite_var__ (ari...: search 0.000s, apply 0.000s, num matches 2
+    Rule (rule ((= rewrite_var__ (arith_andi (arith_andi ?x ?y ?t1) ?z ?t2)))       ((uni...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_xori ?x ?y ?t)))       ((union rewrite_var__ (ari...: search 0.000s, apply 0.000s, num matches 6
+    Rule (rule ((= rewrite_var__ (arith_ori ?x (c_false) (I1))))       ((union rewrite_va...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_xori (arith_ori ?a ?b (I1)) (c_true) (I1)))      ...: search 0.000s, apply 0.000s, num matches 0
+    Rule (rule ((= rewrite_var__ (arith_ori ?x ?y ?t)))       ((union rewrite_var__ (arit...: search 0.004s, apply 0.000s, num matches 3
+    Ruleset hec_boolean_rules: search 0.007s, apply 0.000s, rebuild 0.000s
+    
+[INFO ] extracted with cost 17: (arith_xori (arith_andi (Value 0 (I1)) (Value 1 (I1)) (I1)) (arith_constant (NamedAttr "value" (IntegerAttr -1 (I1))) (I1)) (I1))
+[INFO ] extracted with cost 17: (arith_xori (arith_andi (Value 0 (I1)) (Value 1 (I1)) (I1)) (arith_constant (NamedAttr "value" (IntegerAttr -1 (I1))) (I1)) (I1))
+(arith_xori (arith_andi (Value 0 (I1)) (Value 1 (I1)) (I1)) (arith_constant (NamedAttr "value" (IntegerAttr -1 (I1))) (I1)) (I1))
+(arith_xori (arith_andi (Value 0 (I1)) (Value 1 (I1)) (I1)) (arith_constant (NamedAttr "value" (IntegerAttr -1 (I1))) (I1)) (I1))

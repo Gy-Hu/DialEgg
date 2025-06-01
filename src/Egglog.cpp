@@ -780,6 +780,28 @@ EggifiedOp* Egglog::eggifyOperation(mlir::Operation* op) {
     }
 
     std::string opName = op->getName().getStringRef().str();
+    
+    // Debug: Check if arith.ori is in supportedEgglogOps
+    if (opName == "arith.ori") {
+        llvm::outs() << "DEBUG: Checking arith.ori support\n";
+        llvm::outs() << "DEBUG: supportedEgglogOps contains " << supportedEgglogOps.size() << " operations\n";
+        
+        // Check if arith.ori exists
+        bool hasArithOri = supportedEgglogOps.find("arith.ori") != supportedEgglogOps.end();
+        bool hasArithOriUnderscore = supportedEgglogOps.find("arith_ori") != supportedEgglogOps.end();
+        
+        llvm::outs() << "DEBUG: 'arith.ori' found: " << (hasArithOri ? "YES" : "NO") << "\n";
+        llvm::outs() << "DEBUG: 'arith_ori' found: " << (hasArithOriUnderscore ? "YES" : "NO") << "\n";
+        
+        // List a few operations for debugging
+        llvm::outs() << "DEBUG: First 10 operations in supportedEgglogOps:\n";
+        int count = 0;
+        for (const auto& [key, _] : supportedEgglogOps) {
+            if (count++ >= 10) break;
+            llvm::outs() << "  '" << key << "'\n";
+        }
+    }
+    
     bool isSupported = supportedEgglogOps.find(opName) != supportedEgglogOps.end();
 
     if (!isSupported) {

@@ -1,0 +1,1 @@
+(function arith_ori (Op Op Type) Op)
