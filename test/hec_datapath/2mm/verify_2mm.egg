@@ -1,0 +1,48 @@
+(include "src/base.egg")
+
+;; Define operations
+(function linalg_matmul (Op Op Op Type) Op)
+(function tensor_empty (Type) Op)
+
+;; OPS HERE ;;
+
+;; RULES HERE ;;
+(ruleset matmul_assoc)
+
+; Helper functions for matrix dimensions
+(function nrows (Type) i64)
+(function ncols (Type) i64)
+
+; Extract dimensions from RankedTensor types
+(rule ((= ?t (RankedTensor ?shape ?tp))) 
+    ((set (nrows ?t) (vec-get ?shape 0)) 
+     (set (ncols ?t) (vec-get ?shape 1)))
+    :ruleset matmul_assoc
+)
+
+; Set type information for operations
+(rule ((= ?A (Value ?id ?t))) ((set (type-of ?A) ?t)) :ruleset matmul_assoc)
+(rule ((= ?A (linalg_matmul ?x ?y ?o ?t))) ((set (type-of ?A) ?t)) :ruleset matmul_assoc)
+(rule ((= ?A (tensor_empty ?t))) ((set (type-of ?A) ?t)) :ruleset matmul_assoc)
+
+; Matrix multiplication associativity rule
+(rule
+    ((= ?lhs (linalg_matmul (linalg_matmul ?x ?y ?xy ?xy_t) ?z ?xy_z ?xyz_t))
+     (= ?b (nrows (type-of ?y)))
+     (= ?d (ncols (type-of ?z)))
+     (= ?xyz_t (RankedTensor ? ?t)))
+    
+    ((let out_t (RankedTensor (vec-of ?b ?d) ?t))
+     (union ?lhs (linalg_matmul ?x (linalg_matmul ?y ?z (tensor_empty out_t) out_t) ?xy_z ?xyz_t)))
+    :ruleset matmul_assoc
+)
+
+;; Run saturation
+(run-schedule (saturate matmul_assoc))
+
+;; EXTRACTS HERE ;;
+;; Extract both expressions to check if they're equivalent
+(extract op6)   ; (X * Y) * Z result
+(extract op10)  ; X * (Y * Z) result
+;; Check if they're in the same e-class
+(check (= op6 op10)) 
